@@ -11,6 +11,7 @@ buildscript {
     }
 
     dependencies {
+        classpath "se.bjurr.gitchangelog:git-changelog-gradle-plugin:+"
         classpath 'net.researchgate:gradle-release:2.1.2'
     }
 }
@@ -66,4 +67,29 @@ release {
 
 test {
     useJUnitPlatform()
+}
+
+
+
+task generateGitReleasenotes11RepoPath(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    file = new File("CHANGELOG_1_0_1_1_repo_path.md");
+    fromRepo = file(".");
+    fromRef = "refs/heads/feature/CSPROC-2411";
+    toRef = "refs/heads/develop";
+    templateContent = """
+    # Releasenotes in 1.1
+    Releasenotes.
+    {{#issues}}
+     {{#hasLink}}
+    ## {{name}} [{{issue}}]({{link}}) {{title}}
+     {{/hasLink}}
+     {{^hasLink}}
+    ## {{name}}
+     {{/hasLink}}
+     {{#commits}}
+      {{{hash}}}
+      {{{message}}}
+     {{/commits}}
+    {{/issues}}
+    """;
 }
