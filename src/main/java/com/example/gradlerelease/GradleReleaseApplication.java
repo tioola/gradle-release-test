@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class GradleReleaseApplication {
-//Change7
+//Change8
     public static void main(String[] args) {
         SpringApplication.run(GradleReleaseApplication.class, args);
     }
