@@ -69,11 +69,13 @@ test {
 
 
 task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+
     file = new File("instructions/releases/CHANGELOG_${changelogVersion}".replaceAll("\\.","_").concat(".md"));
     fromRepo = file(".");
-    fromRef = "refs/tags/0.0.2";
+    fromRef = "refs/tags/${changelogVersion}";
     toRef = "refs/heads/master";
     templateContent = """
+
 # Release-Notes Version [${changelogVersion}]
     
     {{#issues}}
@@ -85,7 +87,8 @@ task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTas
 ## {{name}} [{{issue}}]
      {{/hasLink}}
      
-     {{#commits}}      
+     {{#commits}}     
+       @{{authorName}} 
        - {{{message}}}
      {{/commits}}
      
