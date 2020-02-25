@@ -58,7 +58,6 @@ release {
     versionPatterns = [
             /(\d+)([^\d]*$)/: { Matcher m, Project p -> m.replaceAll("${(m[0][1] as int) + 1}${m[0][2]}") }
     ]
-
     git {
         requireBranch = 'master'
         pushToRemote = 'origin'
@@ -70,14 +69,14 @@ test {
 }
 
 
-
-task generateGitReleasenotes11RepoPath(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-    file = new File("CHANGELOG_1_0_1_1_repo_path.md");
+task releaseWithChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    dependsOn release
+    file = new File("instructions/releases/CHANGELOG_${changelogVersion}".replaceAll("\\.","_").concat(".md"));
     fromRepo = file(".");
-    fromRef = "refs/heads/feature/CSPROC-2411";
-    toRef = "refs/heads/develop";
+    fromRef = "refs/tags/0.0.1";
+    toRef = "refs/heads/master";
     templateContent = """
-    # Releasenotes in 1.1
+    # Releasenotes in ${changelogVersion}
     Releasenotes.
     {{#issues}}
      {{#hasLink}}
@@ -92,4 +91,11 @@ task generateGitReleasenotes11RepoPath(type: se.bjurr.gitchangelog.plugin.gradle
      {{/commits}}
     {{/issues}}
     """;
+
+    doLast {
+        exec {
+            workingDir "instructions/shell"
+            commandLine "sh", "linuxcommit.sh", "${changelogVersion}".replaceAll("\\.","_")
+        }
+    }
 }
