@@ -75,7 +75,6 @@ task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTas
     fromRef = "refs/tags/${changelogOldVersion}";
     toRef = "refs/heads/master";
     templateContent = """
-
 # Release-Notes Version [${changelogVersion}]
     
     {{#issues}}
@@ -84,21 +83,19 @@ task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTas
 ## {{name}} [{{issue}}]({{link}}) {{title}}
      {{/hasLink}}
      {{^hasLink}}
-## {{name}} [{{issue}}]
+## {{name}} [[{{issue}}]](https://jira.int.cipal.be/browse/{{issue}})
      {{/hasLink}}
      
      {{#commits}}     
-       @{{authorName}} 
-       - {{{message}}}
+       @{{authorName}} - {{{message}}}
      {{/commits}}
      
     {{/issues}}
     """;
-
-    doLast {
+    /*doLast {
         exec {
             workingDir "instructions/shell"
             commandLine "sh", "linuxcommit.sh", "${changelogVersion}".replaceAll("\\.","_")
         }
-    }
+    }*/
 }
