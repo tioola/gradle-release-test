@@ -12,7 +12,7 @@ buildscript {
 
     dependencies {
         classpath "se.bjurr.gitchangelog:git-changelog-gradle-plugin:+"
-        classpath 'net.researchgate:gradle-release:2.1.2'
+        classpath files('libs/gradle-release-2.1.2.jar')
     }
 }
 
