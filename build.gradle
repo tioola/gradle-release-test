@@ -68,7 +68,7 @@ test {
 }
 
 
-task generateChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+task generateChangelogMd(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 
     file = new File("instructions/releases/CHANGELOG_${changelogVersion}".replaceAll("\\.","_").concat(".md"));
     fromRepo = file(".");
